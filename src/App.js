@@ -10,6 +10,7 @@ function App() {
     let [likes, setLike] = useState(Array(post.length).fill(0));
     let [modal, setModal] = useState(false);
     let [idx, setIdx] = useState("first");
+    let [inputStr, setInput] = useState("");
 
     function increaseLike(idx) {
         setLike((prev) => {
@@ -32,17 +33,27 @@ function App() {
             <div className="black-nav">
                 <h4>Blog</h4>
             </div>
+            <input
+                onChange={(e) => {
+                    setInput(e.target.value);
+                    console.log(inputStr);
+                }}
+            />
             <button
                 onClick={() => {
                     let newTitles = [...titles];
-                    newTitles.sort();
+                    newTitles.push(inputStr);
                     setTitle(newTitles);
                 }}
             >
-                가나다순 정렬
+                글 발행
             </button>
             {titles.map((title, idx) => (
-                <div className="list" key={idx}>
+                <div
+                    className="list"
+                    key={idx}
+                    style={{ paddingBottom: "15px" }}
+                >
                     <h4
                         onClick={() => {
                             setModal(!modal);
@@ -50,14 +61,16 @@ function App() {
                         }}
                     >
                         {title}
+                        <span
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                increaseLike(idx);
+                            }}
+                        >
+                            👍
+                        </span>
+                        <span>{likes[idx]}</span>
                     </h4>
-                    <span
-                        onClick={() => {
-                            increaseLike(idx);
-                        }}
-                    >
-                        👍
-                    </span>
                     <button
                         onClick={() => {
                             changeTitle(idx);
@@ -65,9 +78,16 @@ function App() {
                     >
                         버튼
                     </button>
-                    {likes[idx]}
-
                     <p>2월 17일 발행</p>
+                    <span
+                        onClick={() => {
+                            let newTitles = [...titles];
+                            newTitles.splice(idx, 1);
+                            setTitle(newTitles);
+                        }}
+                    >
+                        🗑️
+                    </span>
                 </div>
             ))}
             {modal == true && idx != "first" ? (
