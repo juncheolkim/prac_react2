@@ -29,6 +29,15 @@ function App() {
             <div className="black-nav">
                 <h4>Blog</h4>
             </div>
+            <button
+                onClick={() => {
+                    let newTitles = [...titles];
+                    newTitles.sort();
+                    setTitle(newTitles);
+                }}
+            >
+                가나다순 정렬
+            </button>
             {titles.map((title, idx) => (
                 <div className="list" key={idx}>
                     <h4>
@@ -40,13 +49,13 @@ function App() {
                         >
                             👍
                         </span>
-                        <span
+                        <button
                             onClick={() => {
                                 changeTitle(idx);
                             }}
                         >
                             버튼
-                        </span>
+                        </button>
                         {like[idx]}
                     </h4>
                     <p>2월 17일 발행</p>
