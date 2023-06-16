@@ -36,14 +36,18 @@ function App() {
             <input
                 onChange={(e) => {
                     setInput(e.target.value);
-                    console.log(inputStr);
                 }}
             />
             <button
                 onClick={() => {
-                    let newTitles = [...titles];
-                    newTitles.push(inputStr);
-                    setTitle(newTitles);
+                    if (inputStr) {
+                        let newTitles = [...titles];
+                        newTitles.unshift(inputStr);
+                        setTitle(newTitles);
+                        let newLikes = [...likes];
+                        newLikes.unshift(0);
+                        setLike(newLikes);
+                    }
                 }}
             >
                 글 발행
@@ -84,6 +88,9 @@ function App() {
                             let newTitles = [...titles];
                             newTitles.splice(idx, 1);
                             setTitle(newTitles);
+                            let newLikes = [...likes];
+                            newLikes.splice(idx, 1);
+                            setLike(newLikes);
                         }}
                     >
                         🗑️
