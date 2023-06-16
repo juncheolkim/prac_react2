@@ -7,8 +7,9 @@ function App() {
     let post = ["강남 우동 맛집", "남자 코트 추천", "리액트 독학"];
     // Destructuring
     let [titles, setTitle] = useState(post);
-    let [like, setLike] = useState(Array(post.length).fill(0));
+    let [likes, setLike] = useState(Array(post.length).fill(0));
     let [modal, setModal] = useState(false);
+    let [idx, setIdx] = useState("first");
 
     function increaseLike(idx) {
         setLike((prev) => {
@@ -45,6 +46,7 @@ function App() {
                     <h4
                         onClick={() => {
                             setModal(!modal);
+                            setIdx(idx);
                         }}
                     >
                         {title}
@@ -63,23 +65,37 @@ function App() {
                     >
                         버튼
                     </button>
-                    {like[idx]}
+                    {likes[idx]}
 
                     <p>2월 17일 발행</p>
                 </div>
             ))}
-            {modal == true ? <Modal /> : null}
+            {modal == true && idx != "first" ? (
+                <Modal
+                    color={"skyblue"}
+                    titles={titles}
+                    idx={idx}
+                    changeTitle={changeTitle}
+                />
+            ) : null}
         </div>
     );
 }
 
-const Modal = () => {
+const Modal = (props) => {
     return (
         <>
-            <div className="modal">
-                <h4>제목</h4>
+            <div className="modal" style={{ background: props.color }}>
+                <h4>{props.titles[props.idx]}</h4>
                 <p>날짜</p>
                 <p>상세내용</p>
+                <button
+                    onClick={() => {
+                        props.changeTitle(props.idx);
+                    }}
+                >
+                    글수정
+                </button>
             </div>
         </>
     );
