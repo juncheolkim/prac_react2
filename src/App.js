@@ -8,6 +8,7 @@ function App() {
     // Destructuring
     let [titles, setTitle] = useState(post);
     let [like, setLike] = useState(Array(post.length).fill(0));
+    let [modal, setModal] = useState(false);
 
     function increaseLike(idx) {
         setLike((prev) => {
@@ -16,6 +17,7 @@ function App() {
             return newLikes;
         });
     }
+
     function changeTitle(idx) {
         setTitle((prev) => {
             const newTitles = [...prev];
@@ -40,28 +42,33 @@ function App() {
             </button>
             {titles.map((title, idx) => (
                 <div className="list" key={idx}>
-                    <h4>
+                    <h4
+                        onClick={() => {
+                            setModal(!modal);
+                        }}
+                    >
                         {title}
-                        <span
-                            onClick={() => {
-                                increaseLike(idx);
-                            }}
-                        >
-                            👍
-                        </span>
-                        <button
-                            onClick={() => {
-                                changeTitle(idx);
-                            }}
-                        >
-                            버튼
-                        </button>
-                        {like[idx]}
                     </h4>
+                    <span
+                        onClick={() => {
+                            increaseLike(idx);
+                        }}
+                    >
+                        👍
+                    </span>
+                    <button
+                        onClick={() => {
+                            changeTitle(idx);
+                        }}
+                    >
+                        버튼
+                    </button>
+                    {like[idx]}
+
                     <p>2월 17일 발행</p>
                 </div>
             ))}
-            <Modal />
+            {modal == true ? <Modal /> : null}
         </div>
     );
 }
@@ -77,11 +84,5 @@ const Modal = () => {
         </>
     );
 };
-
-// function Modal() {
-//     return (
-
-//     );
-// }
 
 export default App;
